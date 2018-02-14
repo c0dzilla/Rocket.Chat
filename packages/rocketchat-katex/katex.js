@@ -181,7 +181,7 @@ class Katex {
 			const match = this.find_latex(str);
 			const parts = this.extract_latex(str, match);
 
-			// Add to the reuslt what comes before the latex block as well as
+			// Add to the result what comes before the latex block as well as
 			// the rendered latex content
 			const rendered = render_func(parts.latex, match.options.displayMode);
 			result += parts.before + rendered;
