@@ -86,6 +86,9 @@ Template.createChannel.helpers({
 	readOnlyDescription() {
 		return t(Template.instance().readOnly.get() ? t('Only_authorized_users_can_write_new_messages') : t('All_users_in_the_channel_can_write_new_messages'));
 	},
+	broadcastDescription() {
+		return t(Template.instance().broadcast.get() ? t('Enable_broadcast') : t('Disable_broadcast'));
+	},
 	createIsDisabled() {
 		const instance = Template.instance();
 		const invalid = instance.invalid.get();
@@ -161,6 +164,9 @@ Template.createChannel.events({
 	'change [name="readOnly"]'(e, t) {
 		t.readOnly.set(e.target.checked);
 	},
+	'change [name="broadcast"]'(e, t) {
+		t.broadcast.set(e.target.checked);
+	},
 	'input [name="users"]'(e, t) {
 		const input = e.target;
 		const position = input.selectionEnd || input.selectionStart;
@@ -192,7 +198,9 @@ Template.createChannel.events({
 		const name = e.target.name.value;
 		const type = instance.type.get();
 		const readOnly = instance.readOnly.get();
+		const broadcast = instance.broadcast.get();
 		const isPrivate = type === 'p';
+		const broadcast = broadcast === 'b';
 
 		if (instance.invalid.get() || instance.inUse.get()) {
 			return e.target.name.focus();
@@ -253,6 +261,7 @@ Template.createChannel.onCreated(function() {
 	this.name = new ReactiveVar('');
 	this.type = new ReactiveVar('p');
 	this.readOnly = new ReactiveVar(false);
+	this.broadcast = new ReactiveVar(false);
 	this.inUse = new ReactiveVar(undefined);
 	this.invalid = new ReactiveVar(false);
 	this.extensions_invalid = new ReactiveVar(false);
